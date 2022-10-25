@@ -1,18 +1,22 @@
-import { ActionType, initalState } from "./saunterReducerTypes";
+//@ts-ignore
+import { ActionType, initalState } from "./saunterReducerTypes.ts";
+//@ts-ignore
+import { ActionsTypes } from "../actions/ActionsTypes.ts";
 
 const inital: initalState = {
   saunterList: [],
-}
+};
 
-const saunerReducer = (state = inital, action: ActionType) => {
+export const saunterReducer = (state = inital, action: ActionType) => {
+  console.log("123", action)
   switch (action.type) {
-    case "ADD_SAUNDER": {
+    case ActionsTypes.ADD_SAUNTER: {
       return { ...state, saunterList: action.payload };
     }
-    case "REMOVE_SAUNDER": {
-      return { ...state, saunterList: state.saunterList.filter(item => item.id !== action.payload.id) };
+    case ActionsTypes.REMOVE_SAUNTER: {
+      return { ...state, saunterList: state.saunterList.filter((item) => item.id !== action.payload.id) };
     }
+    default:
+      return state;
   }
-  return state;
 };
-export default saunerReducer;

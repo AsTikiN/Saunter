@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 //@ts-ignore
 import DefaultInput from './Input/DefaultInput.tsx';
 //@ts-ignore
@@ -9,6 +9,12 @@ import Container from './Container/Container.tsx';
 import { styled } from "@mui/material";
 //@ts-ignore
 import PathesListItem from './PathesListItem.tsx';
+import { useSelector } from "react-redux";
+import { Saunter } from '../types';
+//@ts-ignore
+import { useActions } from '../hooks/useActions.tsx';
+//@ts-ignore
+import { ActionsTypes } from "../redux/actions/ActionsTypes.ts";
 
 const mockList = [
   {
@@ -56,6 +62,13 @@ const mockList = [
 
 const Body = () => {
   const [searchValue, setSearchValue] = useState<string>("");
+
+  const data:Saunter[] = useSelector((state: any) => state.saunterReducer.saunterList);
+  const { addSaunter, removeSaunter } = useActions();
+
+  useEffect(() => {
+    console.log(data);
+  }, [data])
 
   return ( 
     <Wrapper>

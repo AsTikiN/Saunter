@@ -6,16 +6,18 @@ interface Props {
   color: "primary" | "secondary";
   variant: "outlined" | "contained";
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  fullWidth?: boolean;
 }
 
 const Button = ({
   children,
   color,
   variant,
-  onClick
+  onClick,
+  fullWidth
 }: Props) => {
   return ( 
-    <CustomButton color={color} variant={variant} onClick={onClick}>
+    <CustomButton fullWidth={fullWidth} color={color} variant={variant} onClick={onClick}>
       {children}
     </CustomButton>
    );

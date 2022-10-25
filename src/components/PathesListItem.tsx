@@ -3,7 +3,7 @@ import { styled } from "@mui/material";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
 import { AiFillStar } from "react-icons/ai";
 import { MdArrowForwardIos } from "react-icons/md"
-import { Saunder } from "../types";
+import { Saunter } from "../types";
 
 const PathesListItem = ({
   id,
@@ -12,7 +12,7 @@ const PathesListItem = ({
   distance,
   isFavoutite = true,
   path,
-}: Saunder) => {
+}: Saunter) => {
   console.log(id);
 
   return ( 

@@ -1,21 +1,22 @@
-import { Saunder } from "../../types";
+import { Saunter } from "../../types";
+import { ActionsTypes } from "../actions/ActionsTypes";
 
-export interface AddSaunder {
-  type: "ADD_SAUNDER",
+export interface AddSaunter {
+  type: ActionsTypes.ADD_SAUNTER,
   payload: {
-    item: Saunder,
+    item: Saunter,
   }
 }
 
-export interface RemoveSaunder {
-  type: "REMOVE_SAUNDER",
+export interface RemoveSaunter {
+  type: ActionsTypes.REMOVE_SAUNTER,
   payload: {
     id: number;
   },
 }
 
-export type ActionType = AddSaunder | RemoveSaunder;
+export type ActionType = AddSaunter | RemoveSaunter;
 
 export interface initalState {
-  saunterList: Saunder[],
+  saunterList: Saunter[],
 }

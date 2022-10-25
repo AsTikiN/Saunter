@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { TextField as MuiTextField, styled } from '@mui/material';
+import React, { FC, ReactElement } from 'react';
+import { TextField as MuiTextField, styled, FormControlLabel  } from '@mui/material';
 
 interface Props {
   value: string;
@@ -7,42 +7,54 @@ interface Props {
   startIcon?: JSX.Element,
   endIcon?: JSX.Element,
   fullWidth?: boolean;
+  placeholder?: string;
+  label?: string;
 }
 
-const DefaultInput = ({
+const DefaultInput: FC<Props> = ({
   value,
   setValue,
   startIcon,
   endIcon,
-  fullWidth
-}: Props) => {
+  fullWidth,
+  placeholder,
+  label
+}): ReactElement => {
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  }
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
 
   return ( 
-    <TextField 
-      value={value} 
-      onChange={handleInputChange} 
-      fullWidth={fullWidth}
-      InputProps={{
-        startAdornment: (
-          startIcon
-        ),
-        endAdornment: (
-          endIcon
-        )
-      }}
-      />
-   );
+    <div>
+      <Label>{label}</Label>
+      <TextField 
+        value={value} 
+        onChange={handleInputChange} 
+        fullWidth={fullWidth}
+        placeholder={placeholder}
+        InputProps={{
+          startAdornment: (
+            startIcon
+          ),
+          endAdornment: (
+            endIcon
+          )
+        }}
+        />
+    </div>
+    );
 }
 
 const TextField = styled(MuiTextField)({
+  marginTop: "5px",
+  fontFamily: "arial",
+
   "& svg": {
     height: "28px",
     width: "28px"
   }
+})
+
+const Label = styled("label")({
 })
  
 export default DefaultInput;

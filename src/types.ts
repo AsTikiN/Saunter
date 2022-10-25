@@ -1,8 +1,8 @@
-export interface Saunder {
+export interface Saunter {
   id: number;
   title: string,
-  description: string,
-  distance: number,
+  shortDesc: string,
+  fullDesc: string,
   isFavoutite: boolean,
   path: any,
 }

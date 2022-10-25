@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactElement, FC } from 'react';
 import { useJsApiLoader, GoogleMap, Marker, DirectionsRenderer,  } from "@react-google-maps/api";
 import { Box, styled } from '@mui/material';
 
@@ -13,7 +13,15 @@ interface FindRouteProps {
   points: Cord[];  
 }
 
-const Map = () => {
+interface Props {
+  editMode: boolean;
+  setPath?: React.Dispatch<React.SetStateAction<any>>;
+}
+
+const Map: FC<Props> = ({
+  editMode,
+  setPath
+}): ReactElement => {
   const [defaultProps, setDefaultProps] = useState({
     center: {
       lat: 48.460255107435785,
@@ -54,13 +62,16 @@ const Map = () => {
         travelMode: google.maps.TravelMode.WALKING,
       })
       setMapRoute(results);
+      if(setPath) {
+        setPath(results);
+      }
     } catch(e) {
       console.log("Request error", e);
     }
   }
 
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
-    if(!e.latLng) return;
+    if(!e.latLng || !editMode) return;
 
     const cords = e.latLng;
     setMarkers((prev) => [...prev, ({lat: cords.lat(), lng: cords.lng()})]);
@@ -70,28 +81,26 @@ const Map = () => {
     googleMapsApiKey: "AIzaSyBpFBe9xQa9BlrfC0tVgLlVib1VfNPjZYA",
     libraries: ["places"]
   })
-  if(!isLoaded) return "error";
+  if(!isLoaded) return <div>error</div>;
 
   return ( 
-    <div style={{width: "1920px", height: "1080px"}}>
-      <GoogleMap 
-        center={defaultProps.center} 
-        zoom={defaultProps.zoom} 
-        mapContainerStyle={{width: "100%", height: "100%"}} 
-        onClick={handleMapClick}>
-      { mapRoute &&  <DirectionsRenderer directions={mapRoute} />}
-      {
-        markers.map((marker: Cord, index) => 
-          <Marker 
-            key={marker.lat + index} 
-            position={{
-              lat: marker.lat, 
-              lng: marker.lng
-            }}
-        />)
-        }
-      </GoogleMap>
-    </div> 
+    <GoogleMap 
+      center={defaultProps.center} 
+      zoom={defaultProps.zoom} 
+      mapContainerStyle={{width: "100%", height: "100%"}} 
+      onClick={handleMapClick}>
+    { mapRoute &&  <DirectionsRenderer directions={mapRoute} />}
+    {
+      markers.map((marker: Cord, index) => 
+        <Marker 
+          key={marker.lat + index} 
+          position={{
+            lat: marker.lat, 
+            lng: marker.lng
+          }}
+      />)
+      }
+    </GoogleMap>
   );
 }
 
