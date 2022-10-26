@@ -4,8 +4,7 @@ import { HiOutlineArrowsExpand } from "react-icons/hi";
 import { AiFillStar } from "react-icons/ai";
 import { MdArrowForwardIos } from "react-icons/md"
 import { Saunter } from "../types";
-//@ts-ignore
-import { useActions } from '../hooks/useActions.tsx';
+import { useActions } from '../hooks/useActions';
 
 const PathesListItem:FC<Saunter> = ({
   id,
@@ -13,7 +12,6 @@ const PathesListItem:FC<Saunter> = ({
   shortDesc,
   path,
   isFavourite
-,
 }): ReactElement => {
 
   const { selectSaunter } = useActions();
@@ -27,8 +25,7 @@ const PathesListItem:FC<Saunter> = ({
       </Icon>
       <Info>
         <Title>
-          {isFavourite
- && <AiFillStar />}
+          {isFavourite && <AiFillStar />}
           {title}
         </Title>
 
@@ -38,7 +35,7 @@ const PathesListItem:FC<Saunter> = ({
       </Info>
 
       <Distance>
-        {path.routes[0].legs[0].distance?.text}
+        {path?.routes[0].legs[0].distance?.text}
       </Distance>
 
       <MdArrowForwardIos />

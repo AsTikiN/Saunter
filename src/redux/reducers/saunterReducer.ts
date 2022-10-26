@@ -1,7 +1,5 @@
-//@ts-ignore
-import { ActionType, initalState } from "./saunterReducerTypes.ts";
-//@ts-ignore
-import { ActionsTypes } from "../actions/ActionsTypes.ts";
+import { ActionType, initalState } from "./saunterReducerTypes";
+import { ActionsTypes } from "../actions/ActionsTypes";
 import { Saunter } from "../../types";
 
 const inital: initalState = {
@@ -21,7 +19,7 @@ export const saunterReducer = (state = inital, action: ActionType) => {
       return { ...state, saunterList: [...state.saunterList, action.payload] };
     }
     case ActionsTypes.REMOVE_SAUNTER: {
-      return { ...state, saunterList: state.saunterList.filter((saunter: Saunter) => saunter.id !== action.payload) };
+      return { ...state, saunterList: state.saunterList.filter((saunter: Saunter) => saunter.id !== action.payload)};
     }
     case ActionsTypes.ADD_TO_FAVORITES_SAUNTER: {
       return { 

@@ -1,6 +1,6 @@
 import { Saunter } from "../../types";
-//@ts-ignore
-import { ActionsTypes } from "../actions/ActionsTypes.ts";
+
+import { ActionsTypes } from "../actions/ActionsTypes";
 
 export const addSaunter = (item: Saunter) => ({
   type: ActionsTypes.ADD_SAUNTER,

@@ -1,28 +1,17 @@
-import React, { useEffect, useState, FC, ReactElement } from 'react';
-//@ts-ignore
-import DefaultInput from './Input/DefaultInput.tsx';
-//@ts-ignore
+import React, { useEffect, useState, FC, ReactElement, useContext } from 'react';
+import DefaultInput from './Input/DefaultInput';
 import { FaSearchLocation } from "react-icons/fa";
-//@ts-ignore
-import Container from './Container/Container.tsx';
+import Container from './Container/Container';
 import { styled } from "@mui/material";
-//@ts-ignore
-import PathesListItem from './PathesListItem.tsx';
+import PathesListItem from './PathesListItem';
 import { useSelector } from "react-redux";
 import { Saunter } from '../types';
-//@ts-ignore
-import { useActions } from '../hooks/useActions.tsx';
-//@ts-ignore
-import PathInfo from './PathInfo.tsx';
+import PathInfo from './PathInfo';
 
 const Body: FC = (): ReactElement => {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const data:Saunter[] = useSelector((state: any) => state.saunterReducer.saunterList);
-
-  useEffect(() => {
-    console.log("data", data);
-  }, [data])
 
   return ( 
     <Wrapper>
@@ -31,19 +20,15 @@ const Body: FC = (): ReactElement => {
           <Aside>
             <DefaultInput endIcon={<FaSearchLocation />} fullWidth value={searchValue} setValue={setSearchValue} />
             <PathesListWrapper>
-              {data.sort((prev, next) => +next.isFavourite
- - +prev.isFavourite
-).map(item => 
+              {data.filter(item => `${item.shortDesc}${item.fullDesc}${item.title}`.includes(searchValue)).sort((prev, next) => +next.isFavourite - +prev.isFavourite).map(item => 
                 <PathesListItem 
                   key={item.id}
                   id={item.id}
                   title={item.title}
                   shortDesc={item.shortDesc}
-                  isFavourite
-={item.isFavourite
-}
+                  fullDesc={item.fullDesc}
+                  isFavourite={item.isFavourite}
                   path={item.path}
-                  distance={item.path} 
                   />
                 )}  
             </PathesListWrapper>
@@ -60,10 +45,19 @@ const Wrapper = styled("section")({})
 const Aside = styled("div")({
   width: "50%",
   padding: "20px",
+
+  ['@media (max-width:768px)']: { // eslint-disable-line no-useless-computed-key
+    width: "100%",
+    padding: 0,
+  }
 })
 
 const InnerWrapper = styled("div")({
   display: "flex",
+
+  ['@media (max-width:768px)']: { // eslint-disable-line no-useless-computed-key
+    flexWrap: "wrap",
+  }
 })
 
 const PathesListWrapper = styled("ul")({

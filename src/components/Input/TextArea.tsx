@@ -21,7 +21,7 @@ const TextArea: FC<Props> = ({
   size
 }): ReactElement => {
 
-  const handleAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleAreaChange = (e: any) => {
     const value = e.target.value;
     
     if(!limit || value.length < limit) {

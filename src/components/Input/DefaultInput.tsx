@@ -21,7 +21,7 @@ const DefaultInput: FC<Props> = ({
   label
 }): ReactElement => {
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value);
+  const handleInputChange = (e: any) => setValue(e.target.value);
 
   return ( 
     <div>

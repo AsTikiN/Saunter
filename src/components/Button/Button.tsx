@@ -3,8 +3,8 @@ import { Button as MuiButton, styled } from '@mui/material';
 
 interface Props {
   children: JSX.Element | string;
-  color: "primary" | "secondary";
-  variant: "outlined" | "contained" | "text";
+  color?: "primary" | "secondary";
+  variant?: "outlined" | "contained" | "text";
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   fullWidth?: boolean;
 }

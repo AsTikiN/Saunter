@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
-//@ts-ignore
-import { saunterReducer } from "./saunterReducer.ts";
+import { saunterReducer } from "./saunterReducer";
 
 export const reducers = combineReducers({
   saunterReducer: saunterReducer,

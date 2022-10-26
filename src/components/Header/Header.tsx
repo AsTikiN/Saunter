@@ -1,17 +1,12 @@
 import React, { useState, FC, ReactElement, useEffect } from 'react';
-// @ts-ignore
-import Logo from '../Logo/Logo.tsx';
-// @ts-ignore
-import Button from '../Button/Button.tsx';
+import Logo from '../Logo/Logo';
+import Button from '../Button/Button';
 import { styled } from '@mui/material';
-// @ts-ignore
-import Container from "../Container/Container.tsx";
-// @ts-ignore
-import Modal from '../Modal/Modal.tsx';
+import Container from "../Container/Container";
+import Modal from '../Modal/Modal';
 
 const Header: FC = (): ReactElement => {
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-
   const handleAddClick = (e: React.MouseEvent<HTMLButtonElement>) => setOpenAddModal(true);
 
   return ( 

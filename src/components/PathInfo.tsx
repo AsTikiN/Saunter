@@ -1,13 +1,10 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
-//@ts-ignore
-import Map from './Map.tsx';
+import Map from './Map';
 import { styled } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { Saunter } from '../types';
-//@ts-ignore
-import Button from "./Button/Button.tsx";
-//@ts-ignore
-import { useActions } from "../hooks/useActions.tsx";
+import Button from "./Button/Button";
+import { useActions } from "../hooks/useActions";
 
 const PathInfo:FC = (): ReactElement => {
   const {saunterList: data, selectedItem: selectedId} = useSelector((state: any) => state.saunterReducer);
@@ -20,8 +17,15 @@ const PathInfo:FC = (): ReactElement => {
     setCurrentPath(data.find((saunter: Saunter) => saunter.id === selectedId))
   }, [selectedId, data])
 
-  const handleFavouriteClick = (e: React.MouseEvent<HTMLButtonElement>) => addToFavorites(currentPath?.id);
+  const handleFavouriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(!currentPath) return;
+
+    addToFavorites(currentPath?.id);
+  }
+  
   const handleRemoveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(!currentPath) return;
+
     removeSaunter(currentPath?.id);
     setCurrentPath(null);
   }
@@ -52,7 +56,12 @@ const PathInfo:FC = (): ReactElement => {
 
 const Wrapper = styled("div")({
   width: "50%",
-  padding: "20px"
+  padding: "20px",
+
+  ['@media (max-width:768px)']: { // eslint-disable-line no-useless-computed-key
+    width: "100%",
+    padding: 0,
+  }
 })
 
 const PathTitle = styled("div")({

@@ -1,6 +1,5 @@
 import { createStore } from "redux";
-//@ts-ignore
-import { reducers } from "./reducers/index.ts";
+import { reducers } from "./reducers/index";
 
 const store = createStore(reducers, {});
   

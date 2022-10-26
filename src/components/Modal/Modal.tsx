@@ -1,19 +1,16 @@
 import { styled, Modal as MuiModal, Box } from '@mui/material';
-import React, { ReactElement, FC, useState } from 'react';
-//@ts-ignore
-import Button from "../Button/Button.tsx";
+import React, { ReactElement, FC, useState, useContext, useEffect } from 'react';
+import Button from "../Button/Button";
 import { VscChromeClose } from "react-icons/vsc";
-//@ts-ignore
-import DefaultInput from "../Input/DefaultInput.tsx";
-//@ts-ignore
-import TextArea from "../Input/TextArea.tsx";
+import DefaultInput from "../Input/DefaultInput";
+import TextArea from "../Input/TextArea";
 import { TbMapSearch } from "react-icons/tb";
 import { BsCheckLg } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa"; 
-//@ts-ignore
-import Map from "../Map.tsx";
-//@ts-ignore
-import { useActions } from "../../hooks/useActions.tsx";
+import Map from "../Map";
+import { useActions } from "../../hooks/useActions";
+import { DatabaseContext } from '../../App';
+import { getDatabase, ref, set } from 'firebase/database';
 
 interface Props {
   open: boolean,
@@ -30,22 +27,35 @@ const Modal: FC<Props> = ({
   const [fullDesc, setFullDesc] = useState<string>("");
   const [markerMode, setMarkerMode] = useState<boolean>(false);
   const [path, setPath] = useState<any>(null);
-
+  
+  const database = useContext(DatabaseContext);
   const { addSaunter } = useActions();
 
   const handleAddMarkerClick = (e: React.MouseEvent<HTMLButtonElement>) => setMarkerMode(!markerMode);
-
   const handleSubmitClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(!shortDesc || !fullDesc || !path) return;
 
-    addSaunter({
-      id: Math.random(),
+    const unicId = Math.round(Math.random() * 1000);
+    console.log(path)
+    //@ts-ignore
+    set(ref(database._currentValue, 'saunters/' + unicId), {
       title: title,
       shortDesc: shortDesc,
       fullDesc: fullDesc,
       isFavourite: false,
-      path: path,
+      path: JSON.stringify(path),
+    }).then(() => {
+      addSaunter({
+        id: unicId,
+        title: title,
+        shortDesc: shortDesc,
+        fullDesc: fullDesc,
+        isFavourite: false,
+        path: path,
+      });
     });
+
+    
 
     resetModelData();
     setOpen(false);
@@ -91,14 +101,14 @@ const Modal: FC<Props> = ({
 
             <Sumbit>
               
-              <Button variant="contained" onClick={handleSubmitClick}><BsCheckLg/>Add path</Button>
+              <Button variant="contained" onClick={handleSubmitClick}><><BsCheckLg/>Add path</></Button>
             </Sumbit>
 
           </FormWrapper>
 
             <MapWrapper>
               <EditModeButton>
-                <Button fullWidth variant="contained" onClick={handleAddMarkerClick}><FaMapMarkerAlt />Add marker</Button>
+                <Button fullWidth variant="contained" onClick={handleAddMarkerClick}><><FaMapMarkerAlt />Add marker</></Button>
               </EditModeButton>
               <Map editMode={markerMode} setPath={setPath} path={path}/>
             </MapWrapper>
