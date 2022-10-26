@@ -30,7 +30,7 @@ const PathInfo:FC = (): ReactElement => {
     setCurrentPath(null);
   }
 
-  if(!currentPath) return <>select any path</>;
+  if(!currentPath) return <Wrapper>select any path</Wrapper>;
 
   return ( 
     <Wrapper>
