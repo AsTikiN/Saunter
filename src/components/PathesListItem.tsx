@@ -1,38 +1,44 @@
-import * as React from 'react';
+import React, { FC, ReactElement } from 'react';
 import { styled } from "@mui/material";
 import { HiOutlineArrowsExpand } from "react-icons/hi";
 import { AiFillStar } from "react-icons/ai";
 import { MdArrowForwardIos } from "react-icons/md"
 import { Saunter } from "../types";
+//@ts-ignore
+import { useActions } from '../hooks/useActions.tsx';
 
-const PathesListItem = ({
+const PathesListItem:FC<Saunter> = ({
   id,
   title,
-  description,
-  distance,
-  isFavoutite = true,
+  shortDesc,
   path,
-}: Saunter) => {
-  console.log(id);
+  isFavourite
+,
+}): ReactElement => {
+
+  const { selectSaunter } = useActions();
+
+  const handlePathClick = () => selectSaunter(id);
 
   return ( 
-    <Wrapper>
+    <Wrapper onClick={handlePathClick}>
       <Icon>
         <HiOutlineArrowsExpand />
       </Icon>
       <Info>
         <Title>
-          {isFavoutite && <AiFillStar />}
-          {title || "title"}
+          {isFavourite
+ && <AiFillStar />}
+          {title}
         </Title>
 
         <Description>
-          {description || "description"}
+          {shortDesc}
         </Description>
       </Info>
 
       <Distance>
-        {distance || 10}m
+        {path.routes[0].legs[0].distance?.text}
       </Distance>
 
       <MdArrowForwardIos />

@@ -15,11 +15,13 @@ interface FindRouteProps {
 
 interface Props {
   editMode: boolean;
+  path: any;
   setPath?: React.Dispatch<React.SetStateAction<any>>;
 }
 
 const Map: FC<Props> = ({
   editMode,
+  path,
   setPath
 }): ReactElement => {
   const [defaultProps, setDefaultProps] = useState({
@@ -31,6 +33,10 @@ const Map: FC<Props> = ({
   })
   const [mapRoute, setMapRoute] = useState<any>(null); 
   const [markers, setMarkers] = useState<Cord[]>([])
+
+  useEffect(() => {
+    setMapRoute(path);
+  }, [path])
 
   useEffect(() => {
     if(markers.length > 1) {

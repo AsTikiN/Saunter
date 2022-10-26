@@ -3,6 +3,7 @@ export interface Saunter {
   title: string,
   shortDesc: string,
   fullDesc: string,
-  isFavoutite: boolean,
+  isFavourite
+: boolean,
   path: any,
 }

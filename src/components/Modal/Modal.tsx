@@ -38,16 +38,25 @@ const Modal: FC<Props> = ({
   const handleSubmitClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(!shortDesc || !fullDesc || !path) return;
 
-    console.log(addSaunter())
-
     addSaunter({
       id: Math.random(),
       title: title,
       shortDesc: shortDesc,
       fullDesc: fullDesc,
-      isFavoutite: false,
+      isFavourite: false,
       path: path,
     });
+
+    resetModelData();
+    setOpen(false);
+  }
+
+  const resetModelData = () => {
+    setTitle("");
+    setShortDesc("");
+    setFullDesc("");
+    setMarkerMode(false);
+    setPath(null);
   }
 
   return ( 
@@ -91,7 +100,7 @@ const Modal: FC<Props> = ({
               <EditModeButton>
                 <Button fullWidth variant="contained" onClick={handleAddMarkerClick}><FaMapMarkerAlt />Add marker</Button>
               </EditModeButton>
-              <Map editMode={markerMode} setPath={setPath}/>
+              <Map editMode={markerMode} setPath={setPath} path={path}/>
             </MapWrapper>
         </Wrapper> 
       </Box>

@@ -7,7 +7,17 @@ export const addSaunter = (item: Saunter) => ({
   payload: item,
 });
 
-export const removeSaunter = (index: number) => ({
+export const removeSaunter = (id: number) => ({
   type: ActionsTypes.REMOVE_SAUNTER,
-  payload: index,
+  payload: id,
+});
+
+export const addToFavorites = (id: number) => ({
+  type: ActionsTypes.ADD_TO_FAVORITES_SAUNTER,
+  payload: id,
+});
+
+export const selectSaunter = (id: number) => ({
+  type: ActionsTypes.SELECT_SAUNTER,
+  payload: id,
 });

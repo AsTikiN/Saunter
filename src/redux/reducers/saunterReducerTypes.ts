@@ -15,8 +15,23 @@ export interface RemoveSaunter {
   },
 }
 
-export type ActionType = AddSaunter | RemoveSaunter;
+export interface AddToFavoritesSaunter {
+  type: ActionsTypes.ADD_TO_FAVORITES_SAUNTER,
+  payload: {
+    id: number;
+  },
+}
+
+export interface SelectSaunter {
+  type: ActionsTypes.SELECT_SAUNTER,
+  payload: {
+    id: number;
+  },
+}
+
+export type ActionType = AddSaunter | RemoveSaunter | AddToFavoritesSaunter | SelectSaunter;
 
 export interface initalState {
   saunterList: Saunter[],
+  selectedItem: number | null
 }
