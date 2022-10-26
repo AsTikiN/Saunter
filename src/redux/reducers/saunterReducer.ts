@@ -8,12 +8,6 @@ const inital: initalState = {
 };
 
 export const saunterReducer = (state = inital, action: ActionType) => {
-  if(state.saunterList.length) {
-    console.log("111", [...state.saunterList][0])
-  
-    const x = [...state.saunterList][0].isFavourite = true;
-    console.log("111 222", x);
-  }
   switch (action.type) {
     case ActionsTypes.ADD_SAUNTER: {
       return { ...state, saunterList: [...state.saunterList, action.payload] };
