@@ -1,5 +1,5 @@
 import { styled, Modal as MuiModal, Box } from '@mui/material';
-import React, { ReactElement, FC, useState, useContext, useEffect } from 'react';
+import React, { ReactElement, FC, useState, useContext } from 'react';
 import Button from "../Button/Button";
 import { VscChromeClose } from "react-icons/vsc";
 import DefaultInput from "../Input/DefaultInput";
@@ -9,6 +9,8 @@ import { BsCheckLg } from "react-icons/bs";
 import { FaMapMarkerAlt } from "react-icons/fa"; 
 import Map from "../Map";
 import { useActions } from "../../hooks/useActions";
+import { DatabaseContext } from '../../App';
+import { child, get, onValue, ref, set, push, update } from 'firebase/database';
 
 interface Props {
   open: boolean,
@@ -26,6 +28,7 @@ const Modal: FC<Props> = ({
   const [markerMode, setMarkerMode] = useState<boolean>(false);
   const [path, setPath] = useState<any>(null);
 
+  const database = useContext(DatabaseContext);
   const { addSaunter } = useActions();
 
   const handleAddMarkerClick = (e: React.MouseEvent<HTMLButtonElement>) => setMarkerMode(!markerMode);
@@ -34,16 +37,18 @@ const Modal: FC<Props> = ({
       throw new Error("All fields should be selected");
     };
 
-    const unicId = Math.round(Math.random() * 1000);
-
-    addSaunter({
+    const unicId = Math.round(Math.random() * 10000);
+    const newSaunter = {
       id: unicId,
       title: title,
       shortDesc: shortDesc,
       fullDesc: fullDesc,
       isFavourite: false,
-      path: path,
-    });
+      path: JSON.stringify(path),
+    }
+
+    set(ref(database, `saunters/${unicId}`), newSaunter)
+      .then(addSaunter.bind(null, newSaunter))
 
     resetModelData();
     setOpen(false);
@@ -84,8 +89,8 @@ const Modal: FC<Props> = ({
             </Form>
 
             <Distance>
-              <TbMapSearch /> Length  {path ? path.routes[0].legs[0].distance?.text : "0 km"}
-            </Distance>
+              <TbMapSearch /> Length  {path ? path.len : "0 km"}
+            </Distance> 
 
             <Sumbit>
               <Button variant="contained" onClick={handleSubmitClick}><><BsCheckLg/>Add path</></Button>

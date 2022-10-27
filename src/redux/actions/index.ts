@@ -21,3 +21,8 @@ export const selectSaunter = (id: number) => ({
   type: ActionsTypes.SELECT_SAUNTER,
   payload: id,
 });
+
+export const InitSaunterList = (list: Saunter[]) => ({
+  type: ActionsTypes.INIT_SAUNTER_LIST,
+  payload: list,
+})

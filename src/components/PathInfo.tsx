@@ -1,24 +1,32 @@
-import React, { FC, ReactElement, useEffect, useState } from 'react';
+import React, { FC, ReactElement, useContext, useEffect, useState } from 'react';
 import Map from './Map';
 import { styled } from "@mui/material";
 import { useSelector } from 'react-redux';
 import { Saunter } from '../types';
 import Button from "./Button/Button";
 import { useActions } from "../hooks/useActions";
+import { ref, update } from 'firebase/database';
+import { DatabaseContext } from '../App';
 
 const PathInfo:FC = (): ReactElement => {
   const {saunterList: data, selectedItem: selectedId} = useSelector((state: any) => state.saunterReducer);
   const [currentPath, setCurrentPath] = useState<Saunter | null>(null)
   const { addToFavorites, removeSaunter } = useActions();
 
+  const database = useContext(DatabaseContext);
+
   useEffect(() => {
     if(!data || !selectedId) return;
-
     setCurrentPath(data.find((saunter: Saunter) => saunter.id === selectedId))
   }, [selectedId, data])
 
   const handleFavouriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(!currentPath) return;
+    
+    const updates = {};
+    // @ts-ignore
+    updates[`/saunters/${currentPath.id}/isFavourite`] = true;
+    update(ref(database), updates).then(addToFavorites.bind(null, currentPath?.id));
 
     addToFavorites(currentPath?.id);
   }
@@ -26,7 +34,10 @@ const PathInfo:FC = (): ReactElement => {
   const handleRemoveClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(!currentPath) return;
 
-    removeSaunter(currentPath?.id);
+    const updates = {};
+    // @ts-ignore
+    updates[`/saunters/${currentPath.id}`] = null;
+    update(ref(database), updates).then(removeSaunter.bind(null, currentPath?.id));
     setCurrentPath(null);
   }
 
@@ -36,7 +47,7 @@ const PathInfo:FC = (): ReactElement => {
     <Wrapper>
       <MainInfo>
         <PathTitle>{currentPath?.title}</PathTitle>
-        <PathDistance>{currentPath?.path.routes[0].legs[0].distance?.text}</PathDistance>
+        <PathDistance>{JSON.parse(currentPath?.path).len}</PathDistance>
       </MainInfo>
       <Description>
         <PathDescription>{currentPath?.fullDesc}</PathDescription>
@@ -84,7 +95,7 @@ const MainInfo = styled("div")({
 })
 
 const Description = styled("div")({
-
+  marginTop: "20px"
 })
 
 const BtnToRight = styled("div")({
@@ -95,6 +106,7 @@ const BtnToRight = styled("div")({
 const MapWrapper = styled("div")({
   width: "100%",
   height: "400px",
+  marginTop: "20px"
 })
  
 export default PathInfo;

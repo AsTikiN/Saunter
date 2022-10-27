@@ -26,7 +26,7 @@ const PathesListItem:FC<Saunter> = ({
       <Info>
         <Title>
           {isFavourite && <AiFillStar />}
-          {title}
+          {title.length > 25 ? title.slice(0, 25) + "..." : title}
         </Title>
 
         <Description>
@@ -35,7 +35,7 @@ const PathesListItem:FC<Saunter> = ({
       </Info>
 
       <Distance>
-        {path?.routes[0].legs[0].distance?.text}
+        {JSON.parse(path)?.len}
       </Distance>
 
       <MdArrowForwardIos />
@@ -67,6 +67,7 @@ const Title = styled("div")({
   fontSize: "24px",
   display: "flex",
   alignItems: "center",
+  lineHeight: "40px",
 
   "& svg": {
     width: "24px",
@@ -75,8 +76,8 @@ const Title = styled("div")({
 })
 
 const Description = styled("div")({
-  maxHeight: "40px",
-  overflow: "hidden"
+  maxHeight: "45px",
+  overflow: "hidden",
 })
 
 const Distance = styled("div")({

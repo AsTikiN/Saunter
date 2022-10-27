@@ -23,7 +23,12 @@ export interface SelectSaunter {
   payload: number;
 }
 
-export type ActionType = AddSaunter | RemoveSaunter | AddToFavoritesSaunter | SelectSaunter;
+export interface InitSaunterList {
+  type: ActionsTypes.INIT_SAUNTER_LIST,
+  payload: Saunter[];
+}
+
+export type ActionType = AddSaunter | RemoveSaunter | AddToFavoritesSaunter | SelectSaunter | InitSaunterList;
 
 export interface initalState {
   saunterList: Saunter[],

@@ -35,10 +35,6 @@ const Map: FC<Props> = ({
   const [markers, setMarkers] = useState<Cord[]>([])
 
   useEffect(() => {
-    setMapRoute(path);
-  }, [path])
-
-  useEffect(() => {
     if(markers.length > 1) {
       findRoute({
         start: markers.at(0), 
@@ -52,32 +48,29 @@ const Map: FC<Props> = ({
     if(!start || !end) return;
 
     try {
-      // eslint-disable-next-line no-undef
       const directionService = new google.maps.DirectionsService();
       const results = await directionService.route({
-        // eslint-disable-next-line no-undef
         origin: new google.maps.LatLng(start.lat, start.lng),
-        // eslint-disable-next-line no-undef
         destination: new google.maps.LatLng(end.lat, end.lng),
-        // eslint-disable-next-line no-undef
         waypoints: [
-          // eslint-disable-next-line no-undef
           ...points?.map(point => ({location: new google.maps.LatLng(point.lat, point.lng), stopover: false}))
         ],
-        // eslint-disable-next-line no-undef
         travelMode: google.maps.TravelMode.WALKING,
       })
       setMapRoute(results);
+
       if(setPath) {
-        setPath(results);
+        //@ts-ignore
+        setPath((prev) => ({...prev, markers, len: results.routes[0].legs[0].distance?.text}));
       }
     } catch(e) {
       console.log("Request error", e);
+      setMarkers(markers.slice(0, markers.length - 1))
     }
   }
 
   const handleMapClick = (e: google.maps.MapMouseEvent) => {
-    if(!e.latLng || !editMode) return;
+    if(!e.latLng || !editMode)  return;
 
     const cords = e.latLng;
     setMarkers((prev) => [...prev, ({lat: cords.lat(), lng: cords.lng()})]);
@@ -87,6 +80,7 @@ const Map: FC<Props> = ({
     googleMapsApiKey: "AIzaSyBpFBe9xQa9BlrfC0tVgLlVib1VfNPjZYA",
     libraries: ["places"]
   })
+
   if(!isLoaded) return <div>error</div>;
 
   return ( 

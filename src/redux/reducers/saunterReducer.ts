@@ -31,6 +31,9 @@ export const saunterReducer = (state = inital, action: ActionType) => {
     case ActionsTypes.SELECT_SAUNTER: {
       return {...state, selectedItem: action.payload}
     }
+    case ActionsTypes.INIT_SAUNTER_LIST: {
+      return {...state, saunterList: action.payload}
+    } 
     default:
       return state;
   }
