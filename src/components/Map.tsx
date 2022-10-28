@@ -44,6 +44,16 @@ const Map: FC<Props> = ({
     }
   }, [markers]) 
 
+  useEffect(() => {
+    if(!path) return;
+
+    if(typeof path === "string") {
+      setMarkers(JSON.parse(path).markers);
+    } else {
+      setMarkers(path.markers)
+    }
+  }, [path])
+
   const findRoute = async ({start, end, points = []}: FindRouteProps) => {
     if(!start || !end) return;
 
